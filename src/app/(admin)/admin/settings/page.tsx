@@ -1,7 +1,6 @@
 "use client"
 
 import useUserData from "@/utils/customHooks/useUserData";
-import { InstagramFilled } from "@ant-design/icons";
 import { Button, Card, Slider, Spin, Typography } from "antd";
 import type { SliderMarks } from "antd/es/slider";
 import Image from "next/image";
@@ -37,10 +36,12 @@ export default function SettingsPage() {
             <div className="p-5">
                 <Card title="Personal Information">
                     <Image src={`http://127.0.0.1:8090/api/files/users/${data?.id}/${data?.avatar}`} alt="avatar" width={100} height={100} className="rounded-full" priority={true} />
-                    <div className="pt-5">              
-                        <p>Email: {data?.email}</p>
+                    <div className="pt-5">
+                        <div className={`flex flex-row`}>
+                            <p>Email: {data?.email}</p>
+                        </div>              
                         <p>username: {data?.username}</p>
-                        <p>Name: {data?.name}</p>
+                        <p>Name: {data?.fullName}</p>
                     </div> 
                 </Card>
             </div>
