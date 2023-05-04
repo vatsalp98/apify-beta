@@ -1,15 +1,16 @@
 import { DashboardOutlined } from "@ant-design/icons";
-import { Layout, Menu, MenuProps, Typography } from "antd";
+import { Button, Layout, Menu, MenuProps, Typography } from "antd";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { CgWebsite } from "react-icons/cg";
 import { TbApiApp, TbSocial } from "react-icons/tb";
 import {AiFillSetting} from "react-icons/ai";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Exo } from "next/font/google";
 import AdminFooter from "./AdminFooter";
 import HeadMeta from "./MetaHead";
+import useLogout from "@/utils/customHooks/useLogout";
 
 type MenuItem = Required<MenuProps>['items'][number];
 const { Title } = Typography;
@@ -41,8 +42,9 @@ type Props = {
 const { Footer, Sider, Content } = Layout;
 
 export default function AdminLayout(props: Props) {
-
+    const logout = useLogout();
     const pathname = usePathname();
+    const router = useRouter();
 
     const items: MenuItem[] = [
         getItem(
@@ -75,6 +77,11 @@ export default function AdminLayout(props: Props) {
         ),
     ];
 
+    function handleLogout() {
+        logout();
+        router.push("/");
+    }
+
     return (
         <>  
             <HeadMeta title={props.title}/>
@@ -87,6 +94,8 @@ export default function AdminLayout(props: Props) {
                         left: 0,
                         top: 0,
                         bottom: 0,
+                        justifyItems: "center",
+                        alignItems: 'center',
                         background: "#fff",
                         borderRight: "1px solid #D3D3D3"
                     }}>
@@ -101,9 +110,14 @@ export default function AdminLayout(props: Props) {
                         mode="inline"
                         items={items}
                         defaultSelectedKeys={[pathname.split("/admin/")[1]!]}
-                        style={{ minHeight: "75vh"}}
+                        style={{ minHeight: "25vh"}}
                         >
                     </Menu>
+                    <div className="flex items-center justify-center w-full">
+                        <Button className="flex items-center justify-center" danger type="primary" onClick={handleLogout}>
+                            Logout
+                        </Button>   
+                    </div>
                 </Sider>
                 <Layout style={{ marginLeft: 200 , background: "#ffffff"}}>
                     <Content style={{ fontFamily: exoFont.variable}}>
