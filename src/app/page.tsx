@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <Head>
-          <title>Apify-Web | Home</title>
+          <title>Apify-Web | Home </title>
           <meta name="description" content="Making digital experiences better for local businesses." />
           <link rel="icon" href="./favicon.ico" />
       </Head>
