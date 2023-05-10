@@ -2,6 +2,7 @@ import './globals.css'
 import { Exo } from 'next/font/google'
 import Providers from '@/utils/provider'
 import FooterSite from '@/components/pageLayout/SiteFooter'
+import { ClerkProvider } from '@clerk/nextjs'
 
 const exo = Exo({ subsets: ['latin'] })
 
@@ -16,12 +17,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${exo.className} bg-light dark:bg-dark`}>
-          <Providers>
-            {children}
-          </Providers>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${exo.className} bg-light dark:bg-dark`}>
+            <Providers>
+              {children}
+            </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

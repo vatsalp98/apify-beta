@@ -1,20 +1,15 @@
-"use client"
 
-import { useState } from "react";
+
 import CustomNavLink from "./CustomNavLinks";
 import NavDesktopIcons from "./CustomNavIcons";
 import { TbApiApp } from "react-icons/tb";
+import { UserButton, auth } from "@clerk/nextjs";
 
 type Props = {
     className: string;
 }
 
 export default function SiteNavbar(props: Props) {
-    const [open, setOpen] = useState(false);
-
-    const handleClick = () => {
-        setOpen(!open);
-    }
 
     return (
         <header className={`w-full px-32 py-8 font-medium flex items-center justify-between bg-light relative z-10 lg:px-16 sm:px-12 xs:px-8 dark:bg-dark ${props.className}`}>

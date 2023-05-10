@@ -11,6 +11,7 @@ import { Exo } from "next/font/google";
 import AdminFooter from "./AdminFooter";
 import HeadMeta from "./MetaHead";
 import useLogout from "@/utils/customHooks/useLogout";
+import { UserButton } from "@clerk/nextjs";
 
 type MenuItem = Required<MenuProps>['items'][number];
 const { Title } = Typography;
@@ -39,7 +40,7 @@ type Props = {
     title: string;
 }
 
-const { Footer, Sider, Content } = Layout;
+const { Header, Footer, Sider, Content } = Layout;
 
 export default function AdminLayout(props: Props) {
     const logout = useLogout();
@@ -101,11 +102,10 @@ export default function AdminLayout(props: Props) {
                     }}>
                     <Link href={"/"}>
                         <div className="flex items-center justify-center mt-5 hover:scale-110 duration-75 mb-5">
-                            <span className="w-16 h-16 bg-dark text-light flex items-center justify-center rounded-full text-2xl font-bold dark:text-light hover:bg-primary hover:text-dark duration-75 shadow-lg"> 
-                                <TbApiApp className="text-[40px]"/>
-                            </span>
+                            <UserButton />
                         </div>
                     </Link>
+                    
                     <Menu 
                         mode="inline"
                         items={items}
@@ -113,11 +113,6 @@ export default function AdminLayout(props: Props) {
                         style={{ minHeight: "25vh"}}
                         >
                     </Menu>
-                    <div className="flex items-center justify-center w-full">
-                        <Button className="flex items-center justify-center" danger type="primary" onClick={handleLogout}>
-                            Logout
-                        </Button>   
-                    </div>
                 </Sider>
                 <Layout style={{ marginLeft: 200 , background: "#ffffff"}}>
                     <Content style={{ fontFamily: exoFont.variable}}>

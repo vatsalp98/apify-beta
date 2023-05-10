@@ -3,12 +3,22 @@
 import useAssets from "@/utils/customHooks/useAssets";
 import pb from "@/utils/pocketbase";
 import { InboxOutlined } from "@ant-design/icons";
-import { Button, Col, Row, Spin, Upload, UploadFile, UploadProps, message } from "antd";
+import { Button, Card, Col, Collapse, Form, Input, Row, Spin, Typography, Upload, UploadFile, UploadProps, message } from "antd";
 import { RcFile } from "antd/es/upload";
 import { useState } from "react";
 import Image from "next/image";
 
 const { Dragger } = Upload;
+const { Panel } = Collapse;
+const {Meta} = Card;
+const {Title} = Typography;
+
+interface ParameterData {
+    prompt: string;
+    negativePrompt: string;
+    width: string;
+    height: string;
+}
 
 export default function SocialPage() {
     const {data, isLoading} = useAssets();
@@ -68,53 +78,159 @@ export default function SocialPage() {
         );
     }
 
+    const formItemLayout = {
+        labelCol: {
+            xs: { span: 24 },
+            sm: { span: 6 },
+        },
+        wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 14 },
+        },
+    };
+
+    async function generateImage(data:ParameterData) {
+        try {
+            const response = await fetch("/api/stableapi", {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+            const newData = await response.json();
+            console.log(newData);
+            return newData;
+        } catch(err) {
+            console.log(err);
+        }
+
+        // const requestData = {
+        //     "key": "cxc1vWSeuBMlNnYMZ7ujxH3M7t1psoIJhDJl89zgfUkjOBno8CaRMynKh228",
+        //     "prompt": `${data.prompt}, Canon EOS R3, nikon, f/1.4, ISO 200, 1/160s, 8K, RAW, unedited, symmetrical balance, in-frame, 8K`,
+        //     "negative_prompt": `${data.negativePrompt}`,
+        //     "width": `${data.width}`,
+        //     "height": `${data.height}`,
+        //     "samples": "1",
+        //     "num_inference_steps": "20",
+        //     "seed": "",
+        //     "guidance_scale": 7.5,
+        //     "safety_checker":"yes",
+        //     "webhook": "",
+        //     "track_id": "",
+        // }
+        // try {
+        //     const result = await fetch("https://stablediffusionapi.com/api/v3/text2img", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         mode: "no-cors",
+        //         body: JSON.stringify(requestData),
+        //     });
+        //     const resultData = await result.json();
+        //     console.log(resultData);
+        // } catch(err) {
+        //     console.log(err);
+        // }
+    }
+
 
     return (
         <>  
             {contextHolder}
-            <div className="w-full">
-                <Row>
-                    <Col offset={8} span={8} className="flex items-center justify-center font-bold text-xl">
-                        <div>
-                            <h2>Social Posts</h2>
-                            
-                        </div>
-                    </Col>
-                </Row>
-                <Row className="flex justify-center items-center mt-10">
-                    <Dragger {...customUploadProps}>
-                        <div className="p-5">
-                            <p className="ant-upload-drag-icon">
-                                <InboxOutlined />
-                            </p>
-                            <p className="ant-upload-text">
-                                Click or drag file to this area to upload
-                            </p>
-                            <p className="ant-upload-hint">
-                                Support for a single or bulk upload. Strictly prohibited from uploading company data or other
-                                banned files.
-                            </p>
-                        </div>
-                    </Dragger>
-                </Row>
-                <Row className="flex justify-center items-center mt-10">
-                    <Button onClick={handleUpload} loading={uploading}>
-                        Upload
-                    </Button>
-                </Row>
-                <Row className="py-10 flex items-center justify-center">
-                    <h2 className="text-xl font-bold">Gallery</h2>
-                </Row>
-                <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                    {
-                        data?.map((item: any) => (
-                            <Col key={item['id']} span={6}>
-                                <Image alt={"Gallery Image"} width={200} height={200} src={`http://127.0.0.1:8090/api/files/assets/${item['id']}/${item['asset']}`}/>
-                            </Col>
-                        ))
-                    }
-                </Row>
-            </div>
+            <Title>
+                Social Posts
+            </Title>
+            <Collapse bordered={false} className="flex flex-col">
+                <Panel key={"1"} header={"Upload Posts"}>
+                    <Row className="flex justify-center items-center mt-10">
+                        <Dragger {...customUploadProps}>
+                            <div className="p-5">
+                                <p className="ant-upload-drag-icon">
+                                    <InboxOutlined />
+                                </p>
+                                <p className="ant-upload-text">
+                                    Click or drag file to this area to upload
+                                </p>
+                                <p className="ant-upload-hint">
+                                    Support for a single or bulk upload. Strictly prohibited from uploading company data or other
+                                    banned files.
+                                </p>
+                            </div>
+                        </Dragger>
+                    </Row>
+                    <Row className="flex justify-center items-center mt-10">
+                        <Button onClick={handleUpload} loading={uploading}>
+                            Upload
+                        </Button>
+                    </Row>
+                </Panel>
+                <Panel key={"2"} header={"Gallery"}>
+                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                        {
+                            data?.map((item: any) => (
+                                <Col key={item['id']} span={6}>
+                                    <Card cover={<Image alt={"Gallery Image"} width={200} height={200} src={`http://127.0.0.1:8090/api/files/assets/${item['id']}/${item['asset']}`}/>}>
+                                        <Meta title={item['asset']} description={"Asset"}/>
+                                    </Card>
+                                </Col>
+                            ))
+                        }
+                    </Row>
+                </Panel>
+                <Panel key={"3"} header={"AI social Posts"}>
+                    <Row >
+                        <Title level={4}>Parameters</Title>
+                    </Row>
+                    <Row>
+                        <Col span={24}>
+                            <Form {...formItemLayout} 
+                                onFinish={generateImage}>
+                                <Form.Item 
+                                    label="Prompt"
+                                    name={"prompt"}>
+                                    <Input placeholder="Custom Prompt"/>
+                                </Form.Item> 
+
+                                <Form.Item
+                                    label="Size">
+                                        <Form.Item
+                                            name={"width"}
+                                            style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
+                                            <Input placeholder="Width"/>
+                                        </Form.Item>
+                                        <span style={{ display: 'inline-block', width: '24px', lineHeight: '32px', textAlign: 'center' }}>
+                                            x
+                                        </span>
+                                        <Form.Item 
+                                            name={"height"}
+                                            style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
+                                            <Input placeholder="Height"/>
+                                        </Form.Item>
+
+                                </Form.Item>   
+
+                                <Form.Item 
+                                    label="Neg. Prompt"
+                                    name={"negativePrompt"}>
+                                    <Input placeholder="Negative Custom Prompt"/>
+                                </Form.Item>   
+
+                                <Form.Item wrapperCol={{span: 24, offset: 12}}>
+                                    <Button htmlType="submit">
+                                        Generate
+                                    </Button>    
+                                </Form.Item>                  
+                            </Form>
+                        </Col>
+                    </Row>
+                    <Row >
+                        <Title level={4}>Preview</Title>
+                    </Row>
+                    <Row>
+
+                    </Row>
+                </Panel>
+            </Collapse>
+            
         </>
     );
 }

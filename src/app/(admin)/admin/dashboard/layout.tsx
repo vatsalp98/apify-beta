@@ -1,8 +1,5 @@
 "use client"
 
-"use client"
-
-import FooterSite from '@/components/pageLayout/SiteFooter'
 import { Exo } from 'next/font/google'
 import AdminLayout from '@/components/pageLayout/AdminLayout'
 

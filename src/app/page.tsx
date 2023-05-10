@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { Exo } from 'next/font/google'
 import SiteNavbar from '@/components/pageLayout/SiteNavBar'
@@ -33,11 +33,11 @@ export default function Home() {
                 Welcome to Apify, where we empower local businesses to enhance their digital presence through the power of artificial intelligence (AI). Our innovative platform is designed to automate and optimize digital marketing tasks, so you can focus on running your business. With Apify, you can gain valuable insights into your audience, improve your online reputation, and increase your visibility across multiple channels. Whether youre a small business owner or a marketing professional, our AI-powered solutions will help you stay ahead of the competition and achieve your goals. Discover the benefits of Apify today and take your digital presence to the next level!
               </p>
               <div className="flex items-center self-center mt-2 lg:self-center">
-                <Link href={"/signup"}
+                <Link href={"/sign-up"}
                 className="flex items-center bg-dark text-light p-2.5 px-6 rounded-lg text-lg font-semibold hover:bg-light hover:text-dark border-2 border-solid border-transparent hover:border-dark md:p-2 md:px-4 md:text-base dark:bg-light dark:text-dark dark:hover:bg-dark dark:hover:text-light dark:border-light">
                   Get Started
                 </Link>
-                <Link href={"/login"} className="ml-4 text-lg font-medium capitalize text-dark underline md:text-base dark:text-light underline-offset-2 hover:text-primary duration-75">
+                <Link href={"/sign-in"} className="ml-4 text-lg font-medium capitalize text-dark underline md:text-base dark:text-light underline-offset-2 hover:text-primary duration-75">
                   Login
                 </Link>
               </div>
