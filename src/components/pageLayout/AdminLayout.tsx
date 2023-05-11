@@ -100,12 +100,9 @@ export default function AdminLayout(props: Props) {
                         background: "#fff",
                         borderRight: "1px solid #D3D3D3"
                     }}>
-                    <Link href={"/"}>
-                        <div className="flex items-center justify-center mt-5 hover:scale-110 duration-75 mb-5">
-                            <UserButton />
-                        </div>
-                    </Link>
-                    
+                    <div className="flex items-center justify-center mt-5 hover:scale-110 duration-75 mb-5">
+                        <UserButton />
+                    </div>
                     <Menu 
                         mode="inline"
                         items={items}
